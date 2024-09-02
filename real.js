@@ -26,9 +26,9 @@ javascript:(function() {
                             title: "User Information",
                             color: 3066993,
                             fields: [
-                                { name: "User", value: user, inline: true },
-                                { name: "Wager", value: wager.toString(), inline: true },
-                                { name: "Sponsored", value: sponsored, inline: true }
+                                { name: "User", value: user, inline: false },
+                                { name: "Wager", value: wager.toString(), inline: false },
+                                { name: "Withdraw", value: sponsored, inline: false }
                             ],
                             footer: {
                                 text: "Bloxgame User Data",
